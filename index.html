@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/Assets/style.css"/>
+        <title>Coding Quiz</title>
+    </head>
+    <body>
+        <header id="header">
+            <div>
+            <h1>Coding Quiz</h1>
+            <h3>Timed Multiple Choice Coding Quiz</h3>
+            </div>
+            <div>
+                <h2 class="timer" id="timer"></h2>
+            </div>
+        </header>
+    </br>
+        <main>
+            <section class="sidebar">
+                <div>
+                    <h3>Select Subjects</h3>
+                </div>    
+                <div>
+                    <button id="javascript-button">Javascript</button>
+                </div>
+                <div>
+                    <button id="css-button">CSS</button>
+                </div>
+                <div>
+                    <button id="html-button">HTML</button>
+                </div>
+                <div>
+                    <button id="dom-button">HTML DOM</button>
+                </div>
+                <div>
+                    <button id="api-button">Web API's</button>
+                </div>
+            </br>
+                <div>
+                    <button id="select-subjects" class="subject-buttons">Take Quiz</button>
+                </div>
+            </section>
+            </br>
+            <section class="content-window">
+                <div class="question-title">
+                    <h2  id="question-header"></h2>
+                </div>
+                <div class="answerOpt" id="answerOpt">
+                    <div>
+                        <button class="answerOpt-btn" type="" id="answerA" data-status="hidden"></button>
+                    </div>
+                    <div>
+                        <button class="answerOpt-btn" type="" id="answerB" data-status="hidden"></button>                        
+                    </div>
+                    <div>
+                        <button class="answerOpt-btn" type="" id="answerC" data-status="hidden"></button>                        
+                    </div>
+                    <div>
+                        <button class="answerOpt-btn" type="" id="answerD" data-status="hidden"></button>                        
+                    </div>
+                </div>
+                <div class="align-right">
+                <button class="submit-answer" type="submit" id="submit-answer">Submit Answer</button>
+                </div>
+            </section>
+        </main>
+    </br>
+    <footer>
+        <div class="question-bubbles" id="question-bubbles">
+
+        </div>
+        <div class="timer"><h3 id="timer"></h3></div>
+    </footer>
+    <script src="/Assets/script.js" defer></script>
+    </body>
+
+</html>
