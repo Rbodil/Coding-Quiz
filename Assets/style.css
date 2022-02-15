@@ -84,8 +84,9 @@ section {
     height: 400px;
     justify-items: space-between;
 }
-.sidebar button ::after{
-    color: var(--color1)
+.button-clicked{
+    opacity:50%;
+    transform:translate(5px);
 }
 .content-window{
     display:flex;
@@ -114,6 +115,9 @@ section {
     border: 2px solid var(--color1);
     width: 600px;
 
+}
+.answerOpt-btn:active{
+    background-color: var(--color2);
 }
 .submit-answer {
     display: flex;
