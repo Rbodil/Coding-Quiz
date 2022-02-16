@@ -1,5 +1,3 @@
-var timerEl = document.getElementById('#timer');
-
 var javascriptBtn = document.getElementById("#javascript-button");
 var cssBtn = document.getElementById("#css-button")
 var htmlBtn = document.getElementById("#html-button")
@@ -7,6 +5,7 @@ var domBtn = document.getElementById("#dom-button")
 var apiBtn = document.getElementById("#api-button")
 var takeQuizBtn = document.getElementById("#select-subjects");
 
+var test = document.getElementById('#content-window');
 var questionEl = document.getElementById('#question-header');
 
 var answerAbtn = document.getElementById('#answer-A');
@@ -15,48 +14,107 @@ var answerCbtn = document.getElementById('#answer-C');
 var answerDbtn = document.getElementById('#answer-D');
 var submitAnsBtn = document.getElementById('#submit-answer');
 
-// event.preventDefault();
+var progressEl = document.querySelector('.progress-done');
 
-function buttonTest(event) {
-    var targetEl = event.target;
+progressEl.style.width = progressEl.querySelector('data-done');
+// progressEl.textContent = testSelected.question.index + " / " + testSelected.question.length;
+progressEl.style.opacity = 1;
 
-    console.log(targetEl);
-};
+var selectedAnswer = target.answer;
 
-function submitAnswer(event){
-    var answerSelected = event.target;
+// function submitAnswer(){
+//  for(let i=0; i<testSelected.length;i++){
+//      if(testSelected.question>0)
+            // var pickQuestion = testSelected.question[i];
+            // askQuestion(pickQuestion);
+// }
     
-};
-function selectSubject(testSelected){
+// };
+
+// function askQuestion(){
+//     while(questionIndex>0 && timerEl>0){
+//          questionEl.textContent = testSelected.question[i];
+//          answerAbtn.textContent = testSelected.option;
+//          answerBbtn.textContent = testSelected.option;
+//          answerCbtn.textContent = testSelected.option;
+//          answerDbtn.textContent = testSelected.option;
+//          }
+            // if(selectedAnswer===testSelected.answer){
+            //     userScore = userScore +1;
+            // }
+//
+//
+        
+
+
+
+
+//     }
+// };
+
+function selectSubject(){
     
     let testSelected = [];
 
     if(javascriptBtn===true){
-        testSelected = testSelected + javaQuestions;
+        testSelected = (testSelected).concat(javaQuestions);
+        console.log(testSelected);
     }
     if(cssBtn===true){
-        testSelected = testSelected + cssQuestions;
+        testSelected = (testSelected).concat(cssQuestions);
+        console.log(testSelected);
     }
     if(htmlBtn===true){
-        testSelected = testSelected + cssQuestions;
+        testSelected = (testSelected).concat(htmlQuestions);
+        console.log(testSelected);
     }
     if(domBtn===true){
-        testSelected = testSelected + cssQuestions;
+        testSelected = (testSelected).concat(domQuestions);
+        console.log(testSelected);
     }
     if(apiBtn===true){
-        testSelected = testSelected + cssQuestions;
-    };
-
+        testSelected = (testSelected).concat(apiQuestions);
+        console.log(testSelected);
+    }
+    else{
+        window.alert("You need to select at least one test subject");
+        selectSubject();
+    }
     return testSelected;
-
-
+    
 };
-function startTest(){
+// function startTest(){
+//     timerStart();
+//     if(testSelected.isEnded)
+       
+// };
+function timerStart(timerEl){
+    var timerEl = document.getElementById('#timer');
+    timerEl.textContent = timeLeft
 
-};
-function endTest(){
+    var timeLeft = Math.floor(5* 1000 * 60 * testSelected.length);
+    var interval = setInterval(function(){
+        document.getElementById('#timer').innerHTML=timeLeft;
+        timeLeft--;
+        if (timeLeft === 0){
+            clearInterval(interval);
+            alert("Time's up! Let's see how you did!");
+            endTest();
+        }
+    }, 1000);
+}
 
-};
+// function endTest(){
+
+// };
+
+
+// takeQuizBtn.addEventListener("click", startTest);
+takeQuizBtn.addEventListener('click', timerStart);
+// submitAnsBtn.addEventListener("click", )
+
+
+
 
 
 
@@ -215,7 +273,7 @@ let apiQuestions = [
     {
         numb: 3,
         question: "How do you tell the browser to return the value of a tracked item?",
-        answer: ,
+        answer: "localStorage.getItem",
         options:[
             "localDocument.setItem",
             "localStorage.getItem",
@@ -272,12 +330,34 @@ let domQuestions = [
 ]
 
 
-/*function generateTest(testSelected){
-    for(let i=0; i<testSelected.length;i++){
-        if()
-    }
+
+/*function endTest(testSelected){
+
     
 
+    HIGHSCORE FUNCTION
+
+    function getUserInfo(){
+    var getUin = window.prompt("Type your initials");
+    while (getUin === "" || getUin === null){
+        getUin = prompt("Please type your initials")
+    }
+    console.log("User initials are " + getUin);
+    return getUin;
+    };
+
+
+    var userInfo = {
+        initials: getUserInfo(),
+        score: getUserScore()
+    };
+
+
+
+    
+
+
+    
 
 */
 
@@ -295,8 +375,38 @@ let domQuestions = [
 
  element onreset look it up
 
+ RANDOM FOR LOOP
+
+ for(let i=0; i<testSelected.length;i++){
+        if(EventTarget.matches===true){
+
+        }
+
  */
 
+        // FOR LOOP FOR SET/GET ITEM
+
+//     var orderLi = document.createElement('ol')
+
+//     for(i=0; i<highScores.length; i++){
+//         var listEl = document.createElement('li')
+//         listEl.textContent = higscores[i].userInitials + ": " + highscores[i].score;
+//         orderLi.appendChild(listEl);
+//     }
+//     body.appendChild(orderLi);
+    
+//     finalScore.textContent = localStorage.getItem("your score", JSON.stringify(timeLeft))
+
+//     submitInitials.addEventListener(click,function(event){
+//         event.preventDefault();
+//         var userStats = {
+//             userinitials: uswrinput.value.trim(),
+//             score: localStorage.getItem('yourscore',JSON.stringify(timeLeft))
+//         };
+//         highScores.push(userStats)
+//     }
+//     localStorage.setItem('highScores',JSON.stringify(highScores));
+//     userScore.textContent = JSON.parse(localStorage.getItem(userinfo)).userInitials
 
 
 
@@ -306,16 +416,15 @@ let domQuestions = [
 
 // start timer function needs to be 15 minutes per array
 
-// select quizes function needs to have at least one input selected before running take quiz function: 
-// event.preventDefault(); , if x===true &| y===true &| z===true etc, return (testQuestions)
-// testQuestions = testSelected.array; if (x===true) testQuestions = testQuestions + xarray;
+ 
+// event.preventDefault();
 
 
 
 
 
 
-// Time remaining in header
+// Time remaining in footer
 // how to submit quiz on last question
 // how to keep track of right and wrong answers setElement/getElement
-// add arrays w/ 15 values per 
+
