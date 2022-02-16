@@ -20,40 +20,48 @@ progressEl.style.width = progressEl.querySelector('data-done');
 // progressEl.textContent = testSelected.question.index + " / " + testSelected.question.length;
 progressEl.style.opacity = 1;
 
-var selectedAnswer = target.answer;
 
-// function submitAnswer(){
+
+
+
+// function submitAnswer(answerSelected){
 //  for(let i=0; i<testSelected.length;i++){
 //      if(testSelected.question>0)
-            // var pickQuestion = testSelected.question[i];
-            // askQuestion(pickQuestion);
+//             var pickQuestion = testSelected.question[i];
+//             askQuestion(pickQuestion);
 // }
     
 // };
 
-// function askQuestion(){
-//     while(questionIndex>0 && timerEl>0){
-//          questionEl.textContent = testSelected.question[i];
-//          answerAbtn.textContent = testSelected.option;
-//          answerBbtn.textContent = testSelected.option;
-//          answerCbtn.textContent = testSelected.option;
-//          answerDbtn.textContent = testSelected.option;
-//          }
-            // if(selectedAnswer===testSelected.answer){
-            //     userScore = userScore +1;
-            // }
-//
-//
+function askQuestion(testSelected){
+    while(testSelected.question[i]>0 && timerEl>0){
+        questionEl.textContent = testSelected.question[i];
+        answerAbtn.textContent = testSelected.question[i].option[0];
+        answerBbtn.textContent = testSelected.question[i].option[1];
+        answerCbtn.textContent = testSelected.question[i].option[2];
+        answerDbtn.textContent = testSelected.question[i].option[3];
         
-
-
-
-
-//     }
-// };
-
-function selectSubject(){
+        
+    }
+    submitAnswerBtn.addEventListener('submit', ){
+        if(EventTarget(matches)===testSelected.answer[i]){
+            userScore = userScore + 1;
+        }
+        else{
+            timerEl = timerEl - 60000;
+        };
+        testSelected.question[i++];
+    };
     
+    if(testSelected.question[i]==0){
+        endTest();
+        remove(timerEl);
+    }
+};
+
+function selectSubject(event){
+    event.preventDefault();
+
     let testSelected = [];
 
     if(javascriptBtn===true){
@@ -79,20 +87,26 @@ function selectSubject(){
     else{
         window.alert("You need to select at least one test subject");
         selectSubject();
-    }
+    };
+    element.addEventListener('click',(e) =>{
+        e.preventDefault();
+   
+        element.style = "class='button-clicked'"
+    }));
+
     return testSelected;
     
 };
-// function startTest(){
+// function startTest('submit', selectSubject){
 //     timerStart();
-//     if(testSelected.isEnded)
+//     askQuestion();
        
 // };
 function timerStart(timerEl){
     var timerEl = document.getElementById('#timer');
     timerEl.textContent = timeLeft
 
-    var timeLeft = Math.floor(5* 1000 * 60 * testSelected.length);
+    var timeLeft = Math.floor(5* 1000 * 60 * testSelected.question.length);
     var interval = setInterval(function(){
         document.getElementById('#timer').innerHTML=timeLeft;
         timeLeft--;
@@ -102,18 +116,32 @@ function timerStart(timerEl){
             endTest();
         }
     }, 1000);
-}
+};
 
-// function endTest(){
-
-// };
+/*function endTest(){
+    function getUserInfo(){
+        var getUin = window.prompt("Type your initials");
+        while (getUin === "" || getUin === null){
+            getUin = prompt("Please type your initials")
+        }
+        console.log("User initials are " + getUin);
+        return getUin;
+        };
+    
+    
+        var userInfo = {
+            initials: getUserInfo(),
+            score: getUserScore()
+        };
+    
+};*/
 
 
 // takeQuizBtn.addEventListener("click", startTest);
-takeQuizBtn.addEventListener('click', timerStart);
+// takeQuizBtn.addEventListener('click', timerStart);
 // submitAnsBtn.addEventListener("click", )
 
-
+selectSubject();
 
 
 
@@ -363,24 +391,13 @@ let domQuestions = [
 
 
 
- /*how do I randomize multiple choice answers? how do I have individual arrays for each question?
+ /*
 
  button changed after click:
 
- element.addEventListener('click',(e) =>{
-     e.preventDefault();
 
-     element.style = "class='button-clicked'"
- }));
 
- element onreset look it up
-
- RANDOM FOR LOOP
-
- for(let i=0; i<testSelected.length;i++){
-        if(EventTarget.matches===true){
-
-        }
+ element onreset look 
 
  */
 
