@@ -1,18 +1,55 @@
-var javascriptBtn = document.getElementById("#javascript-button");
-var cssBtn = document.getElementById("#css-button")
-var htmlBtn = document.getElementById("#html-button")
-var domBtn = document.getElementById("#dom-button")
-var apiBtn = document.getElementById("#api-button")
-var takeQuizBtn = document.getElementById("#select-subjects");
+var javascriptBtn = document.getElementById("javascript-button");
+var cssBtn = document.getElementById("css-button")
+var htmlBtn = document.getElementById("html-button")
+var domBtn = document.getElementById("dom-button")
+var apiBtn = document.getElementById("api-button")
+var takeQuizBtn = document.getElementById("select-subjects");
 
-var test = document.getElementById('#content-window');
-var questionEl = document.getElementById('#question-header');
+var test = document.getElementById('content-window');
+var questionEl = document.getElementById('question-header');
 
-var answerAbtn = document.getElementById('#answer-A');
-var answerBbtn = document.getElementById('#answer-B');
-var answerCbtn = document.getElementById('#answer-C');
-var answerDbtn = document.getElementById('#answer-D');
-var submitAnsBtn = document.getElementById('#submit-answer');
+
+
+var subjectsObj = {
+    javascriptBtn:false,
+    cssBtn:false,
+    htmlBtn:false,
+    domBtn:false,
+    apiBtn:false
+};
+//build more of these
+javascriptBtn.addEventListener('click', ()=>{
+    subjectsObj.javascriptBtn = !subjectsObj.javascriptBtn
+    javascriptBtn.classList.add('button-clicked');
+    console.log(subjectsObj);
+});
+cssBtn.addEventListener('click', ()=>{
+    subjectsObj.cssBtn = !subjectsObj.cssBtn
+    cssBtn.classList.add('button-clicked');
+    console.log(subjectsObj);
+});
+htmlBtn.addEventListener('click', ()=>{
+    subjectsObj.htmlBtn = !subjectsObj.htmlBtn
+    htmlBtn.classList.add('button-clicked');
+    console.log(subjectsObj);
+});
+domBtn.addEventListener('click', ()=>{
+    subjectsObj.domBtn = !subjectsObj.domBtn
+    domBtn.classList.add('button-clicked');
+    console.log(subjectsObj);
+});
+apiBtn.addEventListener('click', ()=>{
+    subjectsObj.apiBtn = !subjectsObj.apiBtn
+    apiBtn.classList.add('button-clicked');
+    console.log(subjectsObj);
+});
+
+var answerAbtn = document.getElementById('answer-A');
+var answerBbtn = document.getElementById('answer-B');
+var answerCbtn = document.getElementById('answer-C');
+var answerDbtn = document.getElementById('answer-D');
+var submitAnsBtn = document.getElementById('submit-answer');
+
 
 var progressEl = document.querySelector('.progress-done');
 
@@ -20,13 +57,8 @@ progressEl.style.width = progressEl.querySelector('data-done');
 // progressEl.textContent = testSelected.question.index + " / " + testSelected.question.length;
 progressEl.style.opacity = 1;
 
-
-function buttonTest(){
-    if(javascriptBtn==='clicked')
-    console.log("I work");
-};
-
-
+var timerEl = document.getElementById('timer');
+console.log(timerEl);
 // function submitAnswer(answerSelected){
 //  for(let i=0; i<testSelected.length;i++){
 //      if(testSelected.question>0)
@@ -35,41 +67,33 @@ function buttonTest(){
 // }
     
 // };
-function selectSubject(event){
-    event.preventDefault();
+function selectSubject(){
 
     let testSelected = [];
 
-    if(javascriptBtn===true){
+    if(subjectsObj.javascriptBtn===true){
         testSelected = (testSelected).concat(javaQuestions);
         console.log(testSelected);
     }
-    if(cssBtn===true){
+    if(subjectsObj.cssBtn===true){
         testSelected = (testSelected).concat(cssQuestions);
         console.log(testSelected);
     }
-    if(htmlBtn===true){
+    if(subjectsObj.htmlBtn===true){
         testSelected = (testSelected).concat(htmlQuestions);
         console.log(testSelected);
     }
-    if(domBtn===true){
+    if(subjectsObj.domBtn===true){
         testSelected = (testSelected).concat(domQuestions);
         console.log(testSelected);
     }
-    if(apiBtn===true){
+    if(subjectsObj.apiBtn===true){
         testSelected = (testSelected).concat(apiQuestions);
         console.log(testSelected);
     }
-    else{
+    if(Object.values(subjectsObj).every((i)=>!i)){
         window.alert("You need to select at least one test subject");
-        selectSubject();
     };
-    // element.addEventListener('click',(e) =>{
-    //     e.preventDefault();
-   
-    //     element.style = "class='button-clicked'"
-    // }));
-
     return testSelected;
     
 };
@@ -94,11 +118,12 @@ function timerStart(timerEl){
     return timeLeft;
 };
 function askQuestion(testSelected){
-    if(testSelected.question[i]==0){
+    if(testSelected.question[i]===0){
         remove(submitAnsBtn);
-
-        endTest();
-        remove(timerEl);
+        document.createElement("<button class='submit-answer' type='submit' id='submit-quiz'>Submit Quiz</button>");
+        var submitQuizBtn = document.querySelector('#submit-quiz');
+        submitQuizBtn.addEventListener('click',endTest);
+        submitQuizBtn.addEventListener('click',saveTimer);
     }
     else{
         while(testSelected.question[i]>0 && timerEl>0){
@@ -119,7 +144,10 @@ function askQuestion(testSelected){
         testSelected.question[i++];
     };
 };
-
+function saveTimer(){
+    document.setItem(JSON.stringify(timeLeft));
+    timerEl.textContent = "00:00";
+};
 
 function endTest(){
     function getUserInfo(){
@@ -136,11 +164,12 @@ function endTest(){
             initials: getUserInfo(),
             score: getUserScore()
         };
+        console.log(userInfo)
     return userInfo
     
 };
 
-selectSubject();
+takeQuizBtn.addEventListener('click',selectSubject, startTest);
 
 submitAnsBtn.addEventListener('click', askQuestion);
 

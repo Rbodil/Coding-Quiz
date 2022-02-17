@@ -49,12 +49,6 @@ footer{
     align-items: center;
     justify-items: space-between;
 }
-footer h3 {
-    font-size: 25px;
-}
-footer h4{
-    font-size: 10px;
-}
 .sidebar{
     display: flex;
     width: 400px;
@@ -135,6 +129,7 @@ section {
 }
 .timer{
     text-align: right;
+    font-size: 35px;
 }
 .progress {
 	background-color: var(--color3);
