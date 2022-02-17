@@ -97,7 +97,7 @@ function selectSubject(){
 function startTest(){
     // timerStart();
     askQuestion();
-    alert('You have 2 minutes per question. There are ' + testSelected.length + " questions in your quiz. Good luck!!");
+    alert('You have 2 minutes per question. There are ' + testSelected.length + " questions in you quiz. Good luck!!");
 };
 function timerStart(){
     timerEl.textContent = timeLeft;
@@ -115,74 +115,66 @@ function timerStart(){
     }, 1000);
     return timeLeft;
 };
-function questionLoop(){
-
-    for(let i=0; i<testSelected.length; i++){
-    questionEl.textContent = testSelected[i].question;
-    answerAbtn.textContent = testSelected[i].options[0];
-    answerBbtn.textContent = testSelected[i].options[1];
-    answerCbtn.textContent = testSelected[i].options[2];
-    answerDbtn.textContent = testSelected[i].options[3];
-    };
     
-}
+var questionIndex = 0;
 
 function askQuestion(){
+    
     let i=0;
-    questionEl.textContent = testSelected[0].question;
-    answerAbtn.textContent = testSelected[0].options[0];
-    answerBbtn.textContent = testSelected[0].options[1];
-    answerCbtn.textContent = testSelected[0].options[2];
-    answerDbtn.textContent = testSelected[0].options[3];
+    questionEl.textContent = testSelected[questionIndex].question;
+    answerAbtn.textContent = testSelected[questionIndex].options[0];
+    answerBbtn.textContent = testSelected[questionIndex].options[1];
+    answerCbtn.textContent = testSelected[questionIndex].options[2];
+    answerDbtn.textContent = testSelected[questionIndex].options[3];
     
     
-    
-    
-    if(i>=testSelected.length + 1){
+    if(questionIndex==testSelected.length){
         remove(submitAnsBtn);
         document.createElement("<button class='submit-answer' type='submit' id='submit-quiz'>Submit Quiz</button>");
         let submitQuizBtn = document.querySelector('#submit-quiz');
         submitQuizBtn.addEventListener('click',endTest);
         submitQuizBtn.addEventListener('click',saveTimer);
-    }
+    };
     
     answerAbtn.addEventListener('click', ()=>{
-        if(answerAbtn.textContent==testSelected[i].answer){
+        if(answerAbtn.textContent==testSelected[questionIndex].answer){
             console.log('correct');
         }
         else{
-            console.log("incorrect a");
+            console.log("incorrect");
         }
-    })
+    });
     answerBbtn.addEventListener('click', ()=>{
-        if(answerBbtn.textContent==testSelected[i].answer){
+        if(answerBbtn.textContent==testSelected[questionIndex].answer){
             console.log('correct');
         }
         else{
-            console.log("incorrect b");
+            console.log("incorrect");
         }
         
-    })
+    });
     answerCbtn.addEventListener('click', ()=>{
-        if(answerCbtn.textContent==testSelected[i].answer){
+        if(answerCbtn.textContent==testSelected[questionIndex].answer){
             console.log('correct');
         }
         else{
-            console.log("incorrect c");
+            console.log("incorrect");
         }
     
-    })
+    });
     answerDbtn.addEventListener('click', ()=>{
-        if(answerDbtn.textContent==testSelected[i].answer){
+        if(answerDbtn.textContent==testSelected[questionIndex].answer){
             console.log('correct');
         }
         else{
             console.log("incorrect d");
         }
         
-    })              
+    });               
     submitAnsBtn.addEventListener('click',()=>{
-            questionLoop();
+            questionIndex++;
+
+            askQuestion();
             
             console.log('you clicked me');
             
