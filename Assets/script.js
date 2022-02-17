@@ -21,7 +21,10 @@ progressEl.style.width = progressEl.querySelector('data-done');
 progressEl.style.opacity = 1;
 
 
-
+function buttonTest(){
+    if(javascriptBtn==='clicked')
+    console.log("I work");
+};
 
 
 // function submitAnswer(answerSelected){
@@ -32,33 +35,6 @@ progressEl.style.opacity = 1;
 // }
     
 // };
-
-function askQuestion(testSelected){
-    while(testSelected.question[i]>0 && timerEl>0){
-        questionEl.textContent = testSelected.question[i];
-        answerAbtn.textContent = testSelected.question[i].option[0];
-        answerBbtn.textContent = testSelected.question[i].option[1];
-        answerCbtn.textContent = testSelected.question[i].option[2];
-        answerDbtn.textContent = testSelected.question[i].option[3];
-        
-        
-    }
-    submitAnswerBtn.addEventListener('submit', ){
-        if(EventTarget(matches)===testSelected.answer[i]){
-            userScore = userScore + 1;
-        }
-        else{
-            timerEl = timerEl - 60000;
-        };
-        testSelected.question[i++];
-    };
-    
-    if(testSelected.question[i]==0){
-        endTest();
-        remove(timerEl);
-    }
-};
-
 function selectSubject(event){
     event.preventDefault();
 
@@ -88,20 +64,19 @@ function selectSubject(event){
         window.alert("You need to select at least one test subject");
         selectSubject();
     };
-    element.addEventListener('click',(e) =>{
-        e.preventDefault();
+    // element.addEventListener('click',(e) =>{
+    //     e.preventDefault();
    
-        element.style = "class='button-clicked'"
-    }));
+    //     element.style = "class='button-clicked'"
+    // }));
 
     return testSelected;
     
 };
-// function startTest('submit', selectSubject){
-//     timerStart();
-//     askQuestion();
-       
-// };
+function startTest(){
+    timerStart(timerEl);
+    askQuestion(testSelected);
+};
 function timerStart(timerEl){
     var timerEl = document.getElementById('#timer');
     timerEl.textContent = timeLeft
@@ -116,9 +91,37 @@ function timerStart(timerEl){
             endTest();
         }
     }, 1000);
+    return timeLeft;
+};
+function askQuestion(testSelected){
+    if(testSelected.question[i]==0){
+        remove(submitAnsBtn);
+
+        endTest();
+        remove(timerEl);
+    }
+    else{
+        while(testSelected.question[i]>0 && timerEl>0){
+            questionEl.textContent = testSelected.question[i];
+            answerAbtn.textContent = testSelected.question[i].options[0];
+            answerBbtn.textContent = testSelected.question[i].options[1];
+            answerCbtn.textContent = testSelected.question[i].options[2];
+            answerDbtn.textContent = testSelected.question[i].options[3];
+        };
+        if(EventTarget.matches(testSelected.answer[i])){
+            userScore = userScore + 1;
+            console.log("correct");
+        }
+        else{
+            timeLeft = timeLeft - 60000;
+            console.log("incorrect")
+        };
+        testSelected.question[i++];
+    };
 };
 
-/*function endTest(){
+
+function endTest(){
     function getUserInfo(){
         var getUin = window.prompt("Type your initials");
         while (getUin === "" || getUin === null){
@@ -133,15 +136,14 @@ function timerStart(timerEl){
             initials: getUserInfo(),
             score: getUserScore()
         };
+    return userInfo
     
-};*/
-
-
-// takeQuizBtn.addEventListener("click", startTest);
-// takeQuizBtn.addEventListener('click', timerStart);
-// submitAnsBtn.addEventListener("click", )
+};
 
 selectSubject();
+
+submitAnsBtn.addEventListener('click', askQuestion);
+
 
 
 
@@ -359,47 +361,6 @@ let domQuestions = [
 
 
 
-/*function endTest(testSelected){
-
-    
-
-    HIGHSCORE FUNCTION
-
-    function getUserInfo(){
-    var getUin = window.prompt("Type your initials");
-    while (getUin === "" || getUin === null){
-        getUin = prompt("Please type your initials")
-    }
-    console.log("User initials are " + getUin);
-    return getUin;
-    };
-
-
-    var userInfo = {
-        initials: getUserInfo(),
-        score: getUserScore()
-    };
-
-
-
-    
-
-
-    
-
-*/
-
-
-
- /*
-
- button changed after click:
-
-
-
- element onreset look 
-
- */
 
         // FOR LOOP FOR SET/GET ITEM
 
@@ -429,19 +390,19 @@ let domQuestions = [
 
 
 
-// take quiz function needs to include multiple subjects with randomized answers within respective arrays, require at least one button selection, make buttons visible, and start timer
 
-// start timer function needs to be 15 minutes per array
+
+
 
  
-// event.preventDefault();
 
 
 
 
 
 
-// Time remaining in footer
+
+
 // how to submit quiz on last question
 // how to keep track of right and wrong answers setElement/getElement
 
