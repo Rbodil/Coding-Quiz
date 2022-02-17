@@ -21,17 +21,15 @@ var subjectsObj = {
 javascriptBtn.addEventListener('click', ()=>{
     subjectsObj.javascriptBtn = !subjectsObj.javascriptBtn
     javascriptBtn.classList.add('button-clicked');
-    console.log(subjectsObj);
 });
 cssBtn.addEventListener('click', ()=>{
     subjectsObj.cssBtn = !subjectsObj.cssBtn
-    cssBtn.classList.add('button-clicked');
-    console.log(subjectsObj);
+    cssBtn.classList.add('button-clicked');  
 });
 htmlBtn.addEventListener('click', ()=>{
     subjectsObj.htmlBtn = !subjectsObj.htmlBtn
     htmlBtn.classList.add('button-clicked');
-    console.log(subjectsObj);
+    
 });
 domBtn.addEventListener('click', ()=>{
     subjectsObj.domBtn = !subjectsObj.domBtn
@@ -44,12 +42,12 @@ apiBtn.addEventListener('click', ()=>{
     console.log(subjectsObj);
 });
 
-var answerAbtn = document.getElementById('answer-A');
-var answerBbtn = document.getElementById('answer-B');
-var answerCbtn = document.getElementById('answer-C');
-var answerDbtn = document.getElementById('answer-D');
+var answerAbtn = document.getElementById('answerA');
+var answerBbtn = document.getElementById('answerB');
+var answerCbtn = document.getElementById('answerC');
+var answerDbtn = document.getElementById('answerD');
 var submitAnsBtn = document.getElementById('submit-answer');
-
+var testSelected = [];
 
 var progressEl = document.querySelector('.progress-done');
 
@@ -58,7 +56,7 @@ progressEl.style.width = progressEl.querySelector('data-done');
 progressEl.style.opacity = 1;
 
 var timerEl = document.getElementById('timer');
-console.log(timerEl);
+console.log(timerEl.textContent);
 // function submitAnswer(answerSelected){
 //  for(let i=0; i<testSelected.length;i++){
 //      if(testSelected.question>0)
@@ -69,7 +67,7 @@ console.log(timerEl);
 // };
 function selectSubject(){
 
-    let testSelected = [];
+    testSelected = [];
 
     if(subjectsObj.javascriptBtn===true){
         testSelected = (testSelected).concat(javaQuestions);
@@ -94,16 +92,14 @@ function selectSubject(){
     if(Object.values(subjectsObj).every((i)=>!i)){
         window.alert("You need to select at least one test subject");
     };
-    return testSelected;
     
 };
 function startTest(){
-    timerStart(timerEl);
-    askQuestion(testSelected);
+    // timerStart();
+    askQuestion();
 };
-function timerStart(timerEl){
-    var timerEl = document.getElementById('#timer');
-    timerEl.textContent = timeLeft
+function timerStart(){
+    timerEl.textContent = timeLeft;
 
     var timeLeft = Math.floor(5* 1000 * 60 * testSelected.question.length);
     var interval = setInterval(function(){
@@ -117,8 +113,15 @@ function timerStart(timerEl){
     }, 1000);
     return timeLeft;
 };
-function askQuestion(testSelected){
-    if(testSelected.question[i]===0){
+let i=0;
+function askQuestion(){
+    questionEl.textContent = testSelected[i].question;
+    answerAbtn.textContent = testSelected[i].options[0];
+    answerBbtn.textContent = testSelected[i].options[1];
+    answerCbtn.textContent = testSelected[i].options[2];
+    answerDbtn.textContent = testSelected[i].options[3];
+    
+    if(i>=testSelected.length + 1){
         remove(submitAnsBtn);
         document.createElement("<button class='submit-answer' type='submit' id='submit-quiz'>Submit Quiz</button>");
         var submitQuizBtn = document.querySelector('#submit-quiz');
@@ -126,23 +129,20 @@ function askQuestion(testSelected){
         submitQuizBtn.addEventListener('click',saveTimer);
     }
     else{
-        while(testSelected.question[i]>0 && timerEl>0){
-            questionEl.textContent = testSelected.question[i];
-            answerAbtn.textContent = testSelected.question[i].options[0];
-            answerBbtn.textContent = testSelected.question[i].options[1];
-            answerCbtn.textContent = testSelected.question[i].options[2];
-            answerDbtn.textContent = testSelected.question[i].options[3];
-        };
-        if(EventTarget.matches(testSelected.answer[i])){
-            userScore = userScore + 1;
-            console.log("correct");
+    
+        if(MouseEvent.target===testSelected[i].answer){
+        userScore = userScore + 1;
+        console.log("correct");
         }
-        else{
-            timeLeft = timeLeft - 60000;
-            console.log("incorrect")
-        };
-        testSelected.question[i++];
+    else{
+        // timeLeft = timeLeft - 60000;
+        console.log("incorrect")
     };
+        i++
+    };
+    
+
+    
 };
 function saveTimer(){
     document.setItem(JSON.stringify(timeLeft));
@@ -169,7 +169,9 @@ function endTest(){
     
 };
 
-takeQuizBtn.addEventListener('click',selectSubject, startTest);
+takeQuizBtn.addEventListener('click',selectSubject);
+takeQuizBtn.addEventListener('click',startTest);
+ 
 
 submitAnsBtn.addEventListener('click', askQuestion);
 
@@ -297,12 +299,12 @@ let htmlQuestions = [
     {
         numb: 3,
         question: "What is the correct tag to use when making an area for the user to type a message?",
-        answer: "<textarea>",
+        answer: "textarea",
         options:[
-            "<article>",
-            "<section>",
-            "<input>",
-            "<textarea>"
+            "article",
+            "section",
+            "input",
+            "textarea"
         ]
     }
 ]
