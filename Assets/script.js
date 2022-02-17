@@ -97,9 +97,11 @@ function selectSubject(){
 function startTest(){
     // timerStart();
     askQuestion();
+    alert('You have 2 minutes per question. There are ' + testSelected.length + " questions in your quiz. Good luck!!");
 };
 function timerStart(){
     timerEl.textContent = timeLeft;
+    console.log(timeLeft);
 
     var timeLeft = Math.floor(5* 1000 * 60 * testSelected.question.length);
     var interval = setInterval(function(){
@@ -113,41 +115,85 @@ function timerStart(){
     }, 1000);
     return timeLeft;
 };
-let i=0;
-function askQuestion(){
+function questionLoop(){
+
+    for(let i=0; i<testSelected.length; i++){
     questionEl.textContent = testSelected[i].question;
     answerAbtn.textContent = testSelected[i].options[0];
     answerBbtn.textContent = testSelected[i].options[1];
     answerCbtn.textContent = testSelected[i].options[2];
     answerDbtn.textContent = testSelected[i].options[3];
+    };
+    
+}
+
+function askQuestion(){
+    let i=0;
+    questionEl.textContent = testSelected[0].question;
+    answerAbtn.textContent = testSelected[0].options[0];
+    answerBbtn.textContent = testSelected[0].options[1];
+    answerCbtn.textContent = testSelected[0].options[2];
+    answerDbtn.textContent = testSelected[0].options[3];
+    
+    
+    
     
     if(i>=testSelected.length + 1){
         remove(submitAnsBtn);
         document.createElement("<button class='submit-answer' type='submit' id='submit-quiz'>Submit Quiz</button>");
-        var submitQuizBtn = document.querySelector('#submit-quiz');
+        let submitQuizBtn = document.querySelector('#submit-quiz');
         submitQuizBtn.addEventListener('click',endTest);
         submitQuizBtn.addEventListener('click',saveTimer);
     }
-    else{
     
-        if(MouseEvent.target===testSelected[i].answer){
-        userScore = userScore + 1;
-        console.log("correct");
+    answerAbtn.addEventListener('click', ()=>{
+        if(answerAbtn.textContent==testSelected[i].answer){
+            console.log('correct');
         }
-    else{
-        // timeLeft = timeLeft - 60000;
-        console.log("incorrect")
-    };
-        i++
-    };
+        else{
+            console.log("incorrect a");
+        }
+    })
+    answerBbtn.addEventListener('click', ()=>{
+        if(answerBbtn.textContent==testSelected[i].answer){
+            console.log('correct');
+        }
+        else{
+            console.log("incorrect b");
+        }
+        
+    })
+    answerCbtn.addEventListener('click', ()=>{
+        if(answerCbtn.textContent==testSelected[i].answer){
+            console.log('correct');
+        }
+        else{
+            console.log("incorrect c");
+        }
     
+    })
+    answerDbtn.addEventListener('click', ()=>{
+        if(answerDbtn.textContent==testSelected[i].answer){
+            console.log('correct');
+        }
+        else{
+            console.log("incorrect d");
+        }
+        
+    })              
+    submitAnsBtn.addEventListener('click',()=>{
+            questionLoop();
+            
+            console.log('you clicked me');
+            
+    });
 
     
 };
-function saveTimer(){
-    document.setItem(JSON.stringify(timeLeft));
-    timerEl.textContent = "00:00";
-};
+// function saveTimer(){
+//     document.setItem(JSON.stringify(timeLeft));
+//     timerEl.textContent = "00:00";
+// };
 
 function endTest(){
     function getUserInfo(){
@@ -182,7 +228,6 @@ submitAnsBtn.addEventListener('click', askQuestion);
 
 let javaQuestions = [
     {
-        numb: 1,
         question: 'How do you keep the page from automatically running a function?' ,
         answer: 'event.preventDefault();',
         options:[
@@ -193,18 +238,16 @@ let javaQuestions = [
         ]
     },
     {
-        numb: 2,
         question: 'What is the difference between getElementById and getElementbyClassName?',
-        answer: "getElementById connects a javascript behavior using its id, while getElementByClassName connects a javascript behavior using its class",
+        answer: "getElementById uses id names, while getElementByClassName uses class attributes",
         options:[
-            "getElementById connects a javascript behavior using its id, while getElementByClassName connects a javascript behavior using its class",
+            "getElementById uses id names, while getElementByClassName uses class attributes",
             "getElementByClassName doesn't exist",
             "getElementById only works in local variables",
             "There is no difference"
         ]
     },
     {
-        numb: 3,
         question: "What is recursion?",
         answer: "When a function calls itself in an endless loop",
         options:[
@@ -215,7 +258,6 @@ let javaQuestions = [
         ]
     },
     {
-        numb: 4,
         question: "What is an array?",
         answer: "A special variable, which can hold more than one value",
         options:[
@@ -226,7 +268,6 @@ let javaQuestions = [
         ]
     },
     {
-        numb: 5,
         question: "Which option will not give you an infinite loop?",
         answer: "Make sure the variable you're looping is not recursive",
         options:[
@@ -239,7 +280,6 @@ let javaQuestions = [
 ]
 let cssQuestions = [
     {
-        numb: 1,
         question: "What is an example of a pseudo-class?",
         answer: ".button :hover",
         options:[
@@ -250,7 +290,6 @@ let cssQuestions = [
         ]
     },
     {
-        numb: 2,
         question: "What's not a correct way to write a color?",
         answer: "/*(color)*/",
         options:[
@@ -261,7 +300,6 @@ let cssQuestions = [
         ]
     },
     {
-        numb: 3,
         question: "What does CSS stand for?",
         answer: "Cascading Style Sheets",
         options:[
@@ -275,7 +313,6 @@ let cssQuestions = [
 ]
 let htmlQuestions = [
     {
-        numb: 1,
         question: "How can you populate the standard HTML structure by typing a single character?",
         answer: "!",
         options:[
@@ -286,7 +323,6 @@ let htmlQuestions = [
         ]
     },
     {
-        numb: 2,
         question: "What does the <meta> tag stand for?",
         answer: "Unseen data that tells the search engine what the website is",
         options:[
@@ -297,7 +333,6 @@ let htmlQuestions = [
         ]
     },
     {
-        numb: 3,
         question: "What is the correct tag to use when making an area for the user to type a message?",
         answer: "textarea",
         options:[
@@ -310,7 +345,6 @@ let htmlQuestions = [
 ]
 let apiQuestions = [
     {
-        numb: 1,
         question: "How do you tell the browser what data to track?",
         answer: "storage.setItem",
         options:[
@@ -321,7 +355,6 @@ let apiQuestions = [
         ]
     },
     {
-        numb: 2,
         question: "What is a helpful tool to fixing broken javascript code?",
         answer: "debugger",
         options:[
@@ -332,7 +365,6 @@ let apiQuestions = [
         ]
     },
     {
-        numb: 3,
         question: "How do you tell the browser to return the value of a tracked item?",
         answer: "localStorage.getItem",
         options:[
@@ -343,7 +375,6 @@ let apiQuestions = [
         ]
     },
     {
-        numb: 4,
         question: "What is the difference between console.log vs console.dir",
         answer: "console.dir recognizes the object just as an object and outputs its properties",
         options:[
@@ -356,7 +387,6 @@ let apiQuestions = [
 ]
 let domQuestions = [
     {
-        numb: 1,
         question: "What does DOM stand for?",
         answer: "Dynamic Object Management",
         options:[
@@ -367,7 +397,6 @@ let domQuestions = [
         ]
     },
     {
-        numb: 2,
         question: "What can you manipulate with DOM?",
         answer: "Both HTML and CSS",
         options:[
@@ -378,7 +407,6 @@ let domQuestions = [
         ]
     },
     {
-        numb: 3,
         question: "What is an event listener",
         answer: "A trigger that calls a function when an event occurs",
         options:[
@@ -419,8 +447,12 @@ let domQuestions = [
 
 
 
-
-
+// var answersObj = {
+//     answerAbtn:false,
+//     answerBbtn:false,
+//     answerCbtn:false,
+//     answerDbtn:false
+// };
 
 
 
