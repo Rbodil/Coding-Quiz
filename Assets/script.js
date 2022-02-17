@@ -48,6 +48,7 @@ var answerCbtn = document.getElementById('answerC');
 var answerDbtn = document.getElementById('answerD');
 var submitAnsBtn = document.getElementById('submit-answer');
 var testSelected = [];
+var correctAns = 0;
 
 var progressEl = document.querySelector('.progress-done');
 
@@ -57,14 +58,7 @@ progressEl.style.opacity = 1;
 
 var timerEl = document.getElementById('timer');
 console.log(timerEl.textContent);
-// function submitAnswer(answerSelected){
-//  for(let i=0; i<testSelected.length;i++){
-//      if(testSelected.question>0)
-//             var pickQuestion = testSelected.question[i];
-//             askQuestion(pickQuestion);
-// }
-    
-// };
+
 function selectSubject(){
 
     testSelected = [];
@@ -128,20 +122,13 @@ function askQuestion(){
     answerDbtn.textContent = testSelected[questionIndex].options[3];
     
     
-    if(questionIndex==testSelected.length){
-        remove(submitAnsBtn);
-        document.createElement("<button class='submit-answer' type='submit' id='submit-quiz'>Submit Quiz</button>");
-        let submitQuizBtn = document.querySelector('#submit-quiz');
-        submitQuizBtn.addEventListener('click',endTest);
-        submitQuizBtn.addEventListener('click',saveTimer);
-    };
-    
     answerAbtn.addEventListener('click', ()=>{
         if(answerAbtn.textContent==testSelected[questionIndex].answer){
             console.log('correct');
         }
         else{
             console.log("incorrect");
+            wrongAns++
         }
     });
     answerBbtn.addEventListener('click', ()=>{
@@ -150,6 +137,7 @@ function askQuestion(){
         }
         else{
             console.log("incorrect");
+            wrongAns++
         }
         
     });
@@ -159,24 +147,36 @@ function askQuestion(){
         }
         else{
             console.log("incorrect");
+
         }
     
     });
     answerDbtn.addEventListener('click', ()=>{
         if(answerDbtn.textContent==testSelected[questionIndex].answer){
             console.log('correct');
+
         }
         else{
             console.log("incorrect d");
+
         }
         
     });               
     submitAnsBtn.addEventListener('click',()=>{
+        if(){
+            let submitQuizBtn = document.createElement('div');
+            submitQuizBtn.className = 'submit-answer';
+            submitQuizBtn.innerHTML = "<button>Submit Quiz</button>";
+            submitQuizBtn.addEventListener('click',endTest);
+            submitQuizBtn.addEventListener('click',saveTimer);
+        }
+        else{
             questionIndex++;
 
             askQuestion();
-            
-            console.log('you clicked me');
+        }
+                  
+        console.log('you clicked me');
             
     });
 
@@ -188,6 +188,8 @@ function askQuestion(){
 // };
 
 function endTest(){
+
+
     function getUserInfo(){
         var getUin = window.prompt("Type your initials");
         while (getUin === "" || getUin === null){
@@ -436,25 +438,6 @@ let domQuestions = [
 //     }
 //     localStorage.setItem('highScores',JSON.stringify(highScores));
 //     userScore.textContent = JSON.parse(localStorage.getItem(userinfo)).userInitials
-
-
-
-// var answersObj = {
-//     answerAbtn:false,
-//     answerBbtn:false,
-//     answerCbtn:false,
-//     answerDbtn:false
-// };
-
-
-
-
- 
-
-
-
-
-
 
 
 
