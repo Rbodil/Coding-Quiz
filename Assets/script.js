@@ -7,8 +7,11 @@ var takeQuizBtn = document.getElementById("select-subjects");
 
 var test = document.getElementById('content-window');
 var questionEl = document.getElementById('question-header');
+var correctAns = 0;
+var wrongAns = 0;
 
 
+// allows user to select more than one subject
 
 var subjectsObj = {
     javascriptBtn:false,
@@ -17,7 +20,7 @@ var subjectsObj = {
     domBtn:false,
     apiBtn:false
 };
-//build more of these
+// pushes questions in different subjects into a new array used for the quiz
 javascriptBtn.addEventListener('click', ()=>{
     subjectsObj.javascriptBtn = !subjectsObj.javascriptBtn
     javascriptBtn.classList.add('button-clicked');
@@ -46,18 +49,16 @@ var answerAbtn = document.getElementById('answerA');
 var answerBbtn = document.getElementById('answerB');
 var answerCbtn = document.getElementById('answerC');
 var answerDbtn = document.getElementById('answerD');
+var submitParent = document.getElementById('submitParent');
 var submitAnsBtn = document.getElementById('submit-answer');
 var testSelected = [];
-var correctAns = 0;
+var timeLeft = [];
 
-var progressEl = document.querySelector('.progress-done');
 
-progressEl.style.width = progressEl.querySelector('data-done');
-// progressEl.textContent = testSelected.question.index + " / " + testSelected.question.length;
-progressEl.style.opacity = 1;
 
-var timerEl = document.getElementById('timer');
-console.log(timerEl.textContent);
+
+
+
 
 function selectSubject(){
 
@@ -89,106 +90,160 @@ function selectSubject(){
     
 };
 function startTest(){
-    // timerStart();
+    
+    alert('You have 1 minute per question. There are ' + testSelected.length + " questions in your quiz. Good luck!!");
+    timerStart();
     askQuestion();
-    alert('You have 2 minutes per question. There are ' + testSelected.length + " questions in you quiz. Good luck!!");
+    
+
+    localStorage.setItem("Number Correct", JSON.stringify(correctAns));
+    localStorage.setItem("Number Incorrect", JSON.stringify(wrongAns));
+    localStorage.setItem("time bonus", JSON.stringify(timeLeft));
 };
 function timerStart(){
-    timerEl.textContent = timeLeft;
-    console.log(timeLeft);
+    let startingMin = testSelected.length;
+    let time = startingMin *60; 
+    var timerEl = document.getElementById('timer');
 
-    var timeLeft = Math.floor(5* 1000 * 60 * testSelected.question.length);
-    var interval = setInterval(function(){
-        document.getElementById('#timer').innerHTML=timeLeft;
-        timeLeft--;
-        if (timeLeft === 0){
-            clearInterval(interval);
-            alert("Time's up! Let's see how you did!");
-            endTest();
-        }
-    }, 1000);
-    return timeLeft;
+    const timeOut = setInterval(updateTime, 1000);
+
+    function updateTime(){
+        const minutes = Math.floor(time/60);
+        let seconds = time % 60;
+
+        timerEl.innerHTML = minutes + ":" + seconds;
+        time--;
+
+    }
+
+    if(time===0){
+        clearInterval(timeOut);
+        endTest();
+    }
+
 };
     
 var questionIndex = 0;
 
 function askQuestion(){
     
-    let i=0;
+    //asks first question
+    
     questionEl.textContent = testSelected[questionIndex].question;
     answerAbtn.textContent = testSelected[questionIndex].options[0];
     answerBbtn.textContent = testSelected[questionIndex].options[1];
     answerCbtn.textContent = testSelected[questionIndex].options[2];
     answerDbtn.textContent = testSelected[questionIndex].options[3];
     
+    //if else allows for questions to be answered on click without bugs
     
     answerAbtn.addEventListener('click', ()=>{
         if(answerAbtn.textContent==testSelected[questionIndex].answer){
             console.log('correct');
-        }
-        else{
-            console.log("incorrect");
-            wrongAns++
-        }
-    });
-    answerBbtn.addEventListener('click', ()=>{
-        if(answerBbtn.textContent==testSelected[questionIndex].answer){
-            console.log('correct');
-        }
-        else{
-            console.log("incorrect");
-            wrongAns++
-        }
-        
-    });
-    answerCbtn.addEventListener('click', ()=>{
-        if(answerCbtn.textContent==testSelected[questionIndex].answer){
-            console.log('correct');
-        }
-        else{
-            console.log("incorrect");
-
-        }
-    
-    });
-    answerDbtn.addEventListener('click', ()=>{
-        if(answerDbtn.textContent==testSelected[questionIndex].answer){
-            console.log('correct');
-
-        }
-        else{
-            console.log("incorrect d");
-
-        }
-        
-    });               
-    submitAnsBtn.addEventListener('click',()=>{
-        if(){
-            let submitQuizBtn = document.createElement('div');
-            submitQuizBtn.className = 'submit-answer';
-            submitQuizBtn.innerHTML = "<button>Submit Quiz</button>";
-            submitQuizBtn.addEventListener('click',endTest);
-            submitQuizBtn.addEventListener('click',saveTimer);
-        }
-        else{
             questionIndex++;
+            correctAns++
 
             askQuestion();
         }
-                  
-        console.log('you clicked me');
+        else if(answerAbtn.textContent!==testSelected[questionIndex].answer){
+            console.log("incorrect");
+            questionIndex++;
+            wrongAns++
+            askQuestion();
             
-    });
+        }
+    })
+    answerBbtn.addEventListener('click', ()=>{
+        if(answerBbtn.textContent==testSelected[questionIndex].answer){
+            console.log('correct');
+            questionIndex++;
+            correctAns++
+
+            askQuestion();
+        }
+        else if(answerBbtn.textContent!==testSelected[questionIndex].answer){
+            console.log("incorrect");
+            questionIndex++;
+            wrongAns++
+            askQuestion();
+            
+        }
+        
+    })
+    answerCbtn.addEventListener('click', ()=>{
+        if(answerCbtn.textContent==testSelected[questionIndex].answer){
+            console.log('correct');
+            questionIndex++;
+            correctAns++
+
+            askQuestion();
+        }
+        else if(answerCbtn.textContent!==testSelected[questionIndex].answer){
+            console.log("incorrect");
+            questionIndex++;
+            wrongAns++
+            askQuestion();
+
+        }
+    
+    })
+    answerDbtn.addEventListener('click', ()=>{
+        if(answerDbtn.textContent==testSelected[questionIndex].answer){
+            console.log('correct');
+            questionIndex++;
+            correctAns++
+
+            askQuestion();
+        }
+        else if(answerDbtn.textContent!==testSelected[questionIndex].answer){
+            console.log("incorrect");
+            questionIndex++;
+            wrongAns++
+            askQuestion();
+        }
+        
+    })               
+    
+    // when the end of test is reached, user submits quiz with dynamically generated button, button triggers functions
+
+    if(questionEl==undefined||testSelected[questionIndex].answer==undefined){
+        let submitQuizBtn = document.createElement('button');
+        submitQuizBtn.className = 'submit-answer';
+        submitQuizBtn.innerHTML = "<button>Submit Quiz</button>";
+
+        submitParent.appendChild(submitQuizBtn);
+
+        submitQuizBtn.addEventListener('click',endTest);
+        submitQuizBtn.addEventListener('click',saveTimer);
+
+        timeLeft.push(timerEl);
+        console.log(correctAns);
+        console.log(wrongAns);
+    }
+                  
+    
 
     
 };
-// function saveTimer(){
-//     document.setItem(JSON.stringify(timeLeft));
-//     timerEl.textContent = "00:00";
-// };
+function saveTimer(){
+
+    localStorage.getItem(JSON.parse(timerEl));
+
+    //hopefully returns the time left in the test
+    
+};
 
 function endTest(){
+    
+    //hopefully collects user data
 
+    function getUserScore(){
+        localStorage.getItem(JSON.parse(correctAns));
+        localStorage.getItem(JSON.parse(wrongAns));
+
+        userScore = correctAns - wrongAns +timeLeft;
+    }
+    
 
     function getUserInfo(){
         var getUin = window.prompt("Type your initials");
@@ -205,19 +260,50 @@ function endTest(){
             score: getUserScore()
         };
         console.log(userInfo)
-    return userInfo
+    return userInfo;
     
 };
+
+function showScores(){
+
+    //hopefully dynamically generates highscore list from previous tests
+
+    var orderLi = document.createElement('ol')
+
+    for(i=0; i<highScores.length; i++){
+        var listEl = document.createElement('li')
+        listEl.textContent = higscores[i].getUin + ": " + highscores[i].userScore;
+        orderLi.appendChild(listEl);
+    }
+    body.appendChild(orderLi);
+    
+    finalScore.textContent = localStorage.getItem("your score", JSON.stringify(timeLeft));
+
+    submitInitials.addEventListener("click", (e)=>{
+        e.preventDefault();
+        var userStats = {
+            userinitials: uswrinput.value.trim(),
+            score: localStorage.getItem('yourscore',JSON.stringify(timeLeft))
+        };
+        highScores.push(userStats)
+    });
+
+
+    localStorage.setItem('highScores',JSON.stringify(highScores));
+    userScore.textContent = JSON.parse(localStorage.getItem(userinfo)).userInitials
+
+
+}
 
 takeQuizBtn.addEventListener('click',selectSubject);
 takeQuizBtn.addEventListener('click',startTest);
  
 
-submitAnsBtn.addEventListener('click', askQuestion);
 
 
 
 
+//question arrays
 
 
 let javaQuestions = [
@@ -413,34 +499,4 @@ let domQuestions = [
 ]
 
 
-
-
-        // FOR LOOP FOR SET/GET ITEM
-
-//     var orderLi = document.createElement('ol')
-
-//     for(i=0; i<highScores.length; i++){
-//         var listEl = document.createElement('li')
-//         listEl.textContent = higscores[i].userInitials + ": " + highscores[i].score;
-//         orderLi.appendChild(listEl);
-//     }
-//     body.appendChild(orderLi);
-    
-//     finalScore.textContent = localStorage.getItem("your score", JSON.stringify(timeLeft))
-
-//     submitInitials.addEventListener(click,function(event){
-//         event.preventDefault();
-//         var userStats = {
-//             userinitials: uswrinput.value.trim(),
-//             score: localStorage.getItem('yourscore',JSON.stringify(timeLeft))
-//         };
-//         highScores.push(userStats)
-//     }
-//     localStorage.setItem('highScores',JSON.stringify(highScores));
-//     userScore.textContent = JSON.parse(localStorage.getItem(userinfo)).userInitials
-
-
-
-// how to submit quiz on last question
-// how to keep track of right and wrong answers setElement/getElement
 
