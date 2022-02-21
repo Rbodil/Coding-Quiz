@@ -1,5 +1,5 @@
 # Coding Quiz
-<!--Here's where the link goes-->
+https://rbodil.github.io/Coding-Quiz/
 ## Test Your Knowledge on Different Coding Subjects
 * Javascript
 * CSS
